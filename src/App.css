@@ -16,3 +16,10 @@
 .App-link {
   color: #61dafb;
 }
+
+.main-bg {
+  height: 300px;
+  background-image: url('/public/img/bg.png');
+  background-size: cover;
+  position: center;
+}
