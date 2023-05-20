@@ -28,6 +28,13 @@ function App() {
             >
               Detail
             </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('/about');
+              }}
+            >
+              about
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -36,7 +43,37 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/about" element={<About />}>
+          <Route path="member" element={<div>직원 정보</div>} />
+          <Route path="location" element={<div>위치 정보</div>} />
+        </Route>
       </Routes>
+    </div>
+  );
+}
+
+function About() {
+  let navigate = useNavigate();
+  return (
+    <div>
+      <h4>회사 정보 페이지</h4>
+      <Nav>
+        <Nav.Link
+          onClick={() => {
+            navigate('member');
+          }}
+        >
+          member
+        </Nav.Link>
+        <Nav.Link
+          onClick={() => {
+            navigate('location');
+          }}
+        >
+          location
+        </Nav.Link>
+      </Nav>
+      <Outlet></Outlet>
     </div>
   );
 }
