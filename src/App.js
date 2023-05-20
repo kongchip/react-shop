@@ -1,12 +1,14 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import './App.css';
+import data from './data.js';
+import { useState } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail';
 import ErrorPage from './routes/ErrorPage';
-import MainPage from './routes/MainPage';
 
 function App() {
   let navigate = useNavigate();
+  let [shoes] = useState(data);
 
   return (
     <div className="App">
@@ -40,14 +42,40 @@ function App() {
       </Navbar>
 
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route
+          path="/"
+          element={
+            <div>
+              <div className="main-bg"></div>
+              <div className="App">
+                <div className="container">
+                  <div className="row">
+                    {shoes.map((a, i) => {
+                      return <Card shoes={shoes[i]} i={i} />;
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>직원 정보</div>} />
           <Route path="location" element={<div>위치 정보</div>} />
         </Route>
       </Routes>
+    </div>
+  );
+}
+
+function Card(props) {
+  return (
+    <div className="col-md-4">
+      <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="80%" />
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
     </div>
   );
 }
