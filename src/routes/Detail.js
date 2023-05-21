@@ -29,7 +29,7 @@ function Detail(props) {
         {sale == true ? <div className="alert alert-warning">2초이내 구매시 할인</div> : null}
         <div className="row">
           <div className="col-md-6">
-            <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
+            <img src={`https://codingapple1.github.io/shop/shoes${productId.id + 1}.jpg`} width="100%" />
           </div>
           <div className="col-md-6">
             <input
