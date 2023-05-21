@@ -2,7 +2,7 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
 import { useState } from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Detail from './routes/Detail';
 import ErrorPage from './routes/ErrorPage';
 import AboutPage from './routes/aboutPage';
@@ -11,6 +11,17 @@ import axios from 'axios';
 function App() {
   let navigate = useNavigate();
   let [shoes, setShoes] = useState(data);
+  let baseUrl = 'https://codingapple1.github.io/shop/data2.json';
+  let [count, setCount] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(false);
+  let countBtn = (e) => {
+    setCount(count + 1);
+    if (count === 1) {
+      baseUrl = 'https://codingapple1.github.io/shop/data3.json';
+      count++;
+      setIsDisabled(true);
+    }
+  };
 
   return (
     <div className="App">
@@ -57,12 +68,14 @@ function App() {
                     })}
                   </div>
                   <button
+                    disabled={isDisabled}
                     onClick={() => {
                       axios
-                        .get('https://codingapple1.github.io/shop/data2.json')
+                        .get(baseUrl)
                         .then((res) => {
                           let copy = [...shoes, ...res.data];
                           setShoes(copy);
+                          countBtn();
                         })
                         .catch(() => {
                           console.log('서버 연결 실패');
