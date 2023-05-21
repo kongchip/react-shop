@@ -3,27 +3,40 @@ import { useEffect, useState } from 'react';
 
 function Detail(props) {
   let { id } = useParams();
-  let [alert, setAlert] = useState(true);
+  let [sale, setSlae] = useState(true);
   let productId = props.shoes.find((x) => x.id == id);
+  let [num, setNum] = useState('');
 
   useEffect(() => {
     let a = setTimeout(() => {
-      setAlert(false);
+      setSlae(false);
     }, 2000);
 
     return () => {
       clearTimeout(a);
     };
   }, []);
+
+  useEffect(() => {
+    if (isNaN(num) == true) {
+      alert('숫자를 입력해 주세요');
+    }
+  }, [num]);
+
   return (
     <div>
       <div className="container">
-        {alert == true ? <div className="alert alert-warning">2초이내 구매시 할인</div> : null}
+        {sale == true ? <div className="alert alert-warning">2초이내 구매시 할인</div> : null}
         <div className="row">
           <div className="col-md-6">
             <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
           </div>
           <div className="col-md-6">
+            <input
+              onChange={(e) => {
+                setNum(e.target.value);
+              }}
+            />
             <h4 className="pt-5">{productId.title}</h4>
             <p>{productId.content}</p>
             <p>{productId.price}원</p>
