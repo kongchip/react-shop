@@ -1,11 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Nav } from 'react-bootstrap';
 
 function Detail(props) {
   let { id } = useParams();
   let [sale, setSlae] = useState(true);
   let productId = props.shoes.find((x) => x.id == id);
   let [num, setNum] = useState('');
+  let [tab, setTab] = useState(0);
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -44,8 +46,56 @@ function Detail(props) {
           </div>
         </div>
       </div>
+      <Nav variant="tabs" defaultActiveKey="link0">
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setTab(0);
+            }}
+            eventKey="link0"
+          >
+            버튼0
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setTab(1);
+            }}
+            eventKey="link1"
+          >
+            버튼1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setTab(2);
+            }}
+            eventKey="link2"
+          >
+            버튼2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabControl tab={tab} />
     </div>
   );
+}
+
+function TabControl(props) {
+  let [fade, setFade] = useState('');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFade('end');
+    }, 10);
+    return () => {
+      setFade('');
+    };
+  }, [props.tab]);
+
+  return <div className={`start ${fade}`}>{[<div>버튼0 내용</div>, <div>버튼1 내용</div>, <div>버튼2 내용</div>][props.tab]}</div>;
 }
 
 export default Detail;
