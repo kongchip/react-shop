@@ -7,6 +7,7 @@ import Detail from './routes/Detail';
 import ErrorPage from './routes/ErrorPage';
 import AboutPage from './routes/aboutPage';
 import axios from 'axios';
+import Cart from './routes/Cart';
 
 function App() {
   let navigate = useNavigate();
@@ -51,10 +52,10 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                navigate('/about');
+                navigate('/cart');
               }}
             >
-              about
+              cart
             </Nav.Link>
           </Nav>
         </Container>
@@ -101,6 +102,7 @@ function App() {
           <Route path="member" element={<div>직원 정보</div>} />
           <Route path="location" element={<div>위치 정보</div>} />
         </Route>
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );
