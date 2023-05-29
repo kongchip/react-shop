@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Nav } from 'react-bootstrap';
+import { addItem } from '../store';
+import { useDispatch } from 'react-redux';
 
 function Detail(props) {
   let { id } = useParams();
@@ -8,6 +10,9 @@ function Detail(props) {
   let productId = props.shoes.find((x) => x.id == id);
   let [num, setNum] = useState('');
   let [tab, setTab] = useState(0);
+  let dispatch = useDispatch();
+
+  console.log(productId);
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -42,7 +47,14 @@ function Detail(props) {
             <h4 className="pt-5">{productId.title}</h4>
             <p>{productId.content}</p>
             <p>{productId.price}원</p>
-            <button className="btn btn-danger">주문하기</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                dispatch(addItem({ id: productId.id, name: productId.title, count: 1 }));
+              }}
+            >
+              주문하기
+            </button>
           </div>
         </div>
       </div>

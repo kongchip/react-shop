@@ -10,11 +10,8 @@ let user = createSlice({
     changeName(state) {
       state.name = 'kongchip';
     },
-    increase(state) {
-      state.age += 1;
-    },
   },
 });
-export let { changeName, increase } = user.actions;
+export let { changeName } = user.actions;
 
 export default user;
