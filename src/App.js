@@ -1,20 +1,31 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
-import { useState } from 'react';
+import { useEffect, useState, lazy } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Detail from './routes/Detail';
 import ErrorPage from './routes/ErrorPage';
 import AboutPage from './routes/aboutPage';
 import axios from 'axios';
+import { useQuery } from 'react-query';
+
 import Cart from './routes/Cart';
+import Detail from './routes/Detail';
 
 function App() {
-  let navigate = useNavigate();
   let [shoes, setShoes] = useState(data);
-  let baseUrl = 'https://codingapple1.github.io/shop/data2.json';
   let [count, setCount] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
+  let navigate = useNavigate();
+  let baseUrl = 'https://codingapple1.github.io/shop/data2.json';
+
+  let result = useQuery('작명', () =>
+    axios.get('https://codingapple1.github.io/userdata.json').then((a) => {
+      return a.data;
+    })
+  );
+
+  console.log(result);
+
   let countBtn = (e) => {
     setCount(count + 1);
     if (count === 1) {
@@ -24,6 +35,12 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem('watched', JSON.stringify([]));
+  }, []);
+
+  let lookItem = localStorage.getItem('watched');
+  lookItem = JSON.parse(lookItem);
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
@@ -59,14 +76,26 @@ function App() {
             </Nav.Link>
           </Nav>
         </Container>
+        <Nav className="ms-auto">
+          {result.isLoading && '로딩중'}
+          {result.isError && '에러'}
+          {result.data && result.data.name + '님'}
+        </Nav>
       </Navbar>
-
       <Routes>
         <Route
           path="/"
           element={
             <div>
-              <div className="main-bg"></div>
+              <div className="main-container">
+                <div className="main-bg" />
+                <div className="lookItem">
+                  <div className="look-item-h1">최근 본 상품</div>
+                  {lookItem.map((a, i) => {
+                    return <Item lookItem={lookItem[i]} key={i} shoes={shoes[lookItem[i]]} />;
+                  })}
+                </div>
+              </div>
               <div className="App">
                 <div className="container">
                   <div className="row">
@@ -115,12 +144,22 @@ function Card(props) {
       className="col-md-4"
       onClick={() => {
         navigate(`/detail/${props.i}`);
-        // console.log(props.i);
       }}
     >
       <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="80%" />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
+    </div>
+  );
+}
+
+function Item(props) {
+  return (
+    <div className="container-item">
+      <div>
+        <img src={'https://codingapple1.github.io/shop/shoes' + (props.shoes.id + 1) + '.jpg'} width="50%" />
+        {props.shoes.title}
+      </div>
     </div>
   );
 }

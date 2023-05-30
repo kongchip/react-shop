@@ -16,14 +16,28 @@
 .App-link {
   color: #61dafb;
 }
-
+.main-container {
+  display: flex;
+}
 .main-bg {
   height: 300px;
   background-image: url('/public/img/bg.png');
   background-size: cover;
   position: center;
+  width: 80%;
 }
 
+.lookItem {
+  width: 20%;
+}
+
+.look-item-h1 {
+  font-size: large;
+}
+
+.container-item {
+  border-style: inset;
+}
 .start {
   opacity: 0;
 }
@@ -31,4 +45,9 @@
 .end {
   opacity: 1;
   transition: all 0.5s;
+}
+
+Nav .ms-auto {
+  color: white;
+  margin-right: 20px;
 }

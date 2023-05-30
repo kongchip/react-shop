@@ -12,7 +12,15 @@ function Detail(props) {
   let [tab, setTab] = useState(0);
   let dispatch = useDispatch();
 
-  console.log(productId);
+  useEffect(() => {
+    let watchItem = localStorage.getItem('watched');
+    watchItem = JSON.parse(watchItem);
+    watchItem.push(productId.id);
+    //Set으로 바꿨다가 다시 array로 만들기 & 중복 id 제거
+    watchItem = new Set(watchItem);
+    watchItem = Array.from(watchItem);
+    localStorage.setItem('watched', JSON.stringify(watchItem));
+  });
 
   useEffect(() => {
     let a = setTimeout(() => {
